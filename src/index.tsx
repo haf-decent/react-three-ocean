@@ -50,7 +50,8 @@ export function Ocean({
 	useEffect(() => {
 		water.material.uniforms.distortionScale.value = distortionScale;
 		water.material.uniforms.size.value = size;
-	}, [ distortionScale, size ]);
+		water.material.uniforms.normalSampler.value = normalMap;
+	}, [ distortionScale, size, normalMap ]);
 
 	useFrame(() => {
 		water.material.uniforms.time.value += 1 / 60;
