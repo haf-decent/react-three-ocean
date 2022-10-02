@@ -1,0 +1,46 @@
+{
+  "name": "react-three-ocean",
+  "version": "1.0.0",
+  "description": "React wrapper for threejs ocean shader example",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/esm/index.d.ts",
+  "scripts": {
+    "build": "npm run build-cjs && npm run build-esm",
+    "build-cjs": "tsc --module commonjs --outDir lib/cjs",
+    "build-esm": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haf-decent/react-three-ocean"
+  },
+  "bugs": {
+    "url": "https://github.com/haf-decent/react-three-ocean/issues"
+  },
+  "homepage": "https://github.com/haf-decent/react-three-ocean#readme",
+  "author": "haf-decent",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "react-three-fiber",
+    "threejs",
+    "ocean",
+    "shader",
+    "water",
+    "r3f",
+    "webgl"
+  ],
+  "peerDependencies": {
+    "@react-three/fiber": "^8.8.7",
+    "react": "^18.2.0",
+    "three": "^0.145.0"
+  },
+  "devDependencies": {
+    "@react-three/fiber": "^8.8.7",
+    "react": "^18.2.0",
+    "three": "^0.145.0",
+    "@types/react": "^18.0.21",
+    "@types/three": "^0.144.0",
+    "typescript": "^4.8.4"
+  }
+}
