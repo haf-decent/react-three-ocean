@@ -28,7 +28,7 @@ export function Ocean({
 		return new TextureLoader().load(normals, texture => {
 			texture.wrapS = texture.wrapT = RepeatWrapping;
 		})
-	}, []);
+	}, [ normals ]);
 
 	const [ water ] = useState(() => {
 		return new Water(
