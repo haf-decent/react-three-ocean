@@ -1,15 +1,23 @@
 # react-three-ocean
-React wrapper for the [threejs ocean shader](https://threejs.org/examples/?q=water#webgl_shaders_ocean)
+React/R3F wrapper for the [threejs ocean shader](https://threejs.org/examples/?q=water#webgl_shaders_ocean)
 
 ## Installation
+```bash
+yarn add react-three-ocean
+```
 ```bash
 npm i react-three-ocean
 ```
 
+`react-three-ocean` exports a React component specifically for use in react-three-fiber scenes. It has peer dependencies for [react](https://github.com/facebook/react), [three](https://github.com/mrdoob/three.js), and [@react-three/fiber](https://github.com/pmndrs/react-three-fiber).
+
 ## Usage
-Import the `Ocean` component for use in your r3f scene. By default, it renders a ground plane with the ocean shader applied. See below example for valid props.
+Import the `Ocean` component for use in your r3f scene. By default, it renders a ground plane with the ocean shader applied.
+
+You may forward a ref object to the `Ocean` component, which allows for further customization (e.g. sunDirection, animated waterColor, etc.). See below example for valid props.
 
 ```js
+import { useRef, useState } from "react";
 import { FrontSide } from "three";
 import { Canvas } from "@react-three/fiber";
 import { Box } from "@react-three/drei";
@@ -17,6 +25,8 @@ import { Ocean } from "react-three-ocean";
 
 export function Scene() {
   const [ camera, setCamera ] = useState();
+
+  const ocean = useRef();
 
   return (
     <Canvas
@@ -28,6 +38,7 @@ export function Scene() {
         <meshStandardMaterial color="red"/>
       </Box>
       <Ocean
+        ref={ocean}
         dimensions={[ 10000, 10000 ]}
         normals="https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/waternormals.jpg"
         distortionScale={20}
@@ -43,12 +54,8 @@ export function Scene() {
           distortionScale: 3.7, // automatically set from "distortionScale" prop
           side: FrontSide,
           fog: false
-        }}>
-        {(water) => {
-          console.log(water); // children function is passed `Water` instance for manual manipulation (e.g. sunDirection, animated waterColor, etc.)
-          return null;
         }}
-       </Ocean>
+      />
     </Canvas>
   );
 }

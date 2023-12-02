@@ -1,26 +1,24 @@
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { PlaneGeometry, RepeatWrapping, TextureLoader, Vector3 } from "three";
-import { Water, WaterOptions } from "three/examples/jsm/objects/Water";
-import { GroupProps, useFrame } from "@react-three/fiber";
+import { Water, type WaterOptions } from "three/examples/jsm/Addons";
+import { type GroupProps, useFrame } from "@react-three/fiber";
 
-interface OceanProps extends Omit<GroupProps, "children"> {
+export interface OceanProps extends Omit<GroupProps, "children"> {
 	dimensions?: [ number, number ],
 	normals: string,
 	distortionScale?: number,
 	size?: number,
-	options?: WaterOptions,
-	children?: (water: Water) => ReactNode
+	options?: WaterOptions
 }
 
-export function Ocean({
+export const Ocean = forwardRef<Water, OceanProps>(({
 	dimensions = [ 10000, 10000 ],
 	normals,
 	distortionScale = 3.7,
 	size = 1,
 	options = {},
-	children,
 	...props
-}: OceanProps) {
+}, ref) => {
 	const [ geometry ] = useState(() => new PlaneGeometry(...dimensions));
 
 	const normalMap = useMemo(() => {
@@ -30,8 +28,8 @@ export function Ocean({
 		})
 	}, [ normals ]);
 
-	const [ water ] = useState(() => {
-		return new Water(
+	const [ water ] = useState(() => (
+		new Water(
 			geometry,
 			{
 				textureWidth: 512,
@@ -45,7 +43,9 @@ export function Ocean({
 				...options
 			}
 		)
-	});
+	));
+
+	useImperativeHandle(ref, () => water)
 
 	useEffect(() => {
 		water.material.uniforms.distortionScale.value = distortionScale;
@@ -59,10 +59,12 @@ export function Ocean({
 
 	return (
 		<group {...props}>
-			<primitive object={water} rotation-x={-Math.PI / 2}/>
-			{!!children && children(water)}
+			<primitive
+				object={water}
+				rotation-x={-Math.PI / 2}
+			/>
 		</group>
-	)
-}
+	);
+});
 
 Ocean.displayName = "Ocean";
